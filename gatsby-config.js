@@ -1,5 +1,5 @@
-const { apiEndpoint } = require('./prismic-config');
-var repo = /([^\/]+)\.prismic\.io\/graphql/.exec(apiEndpoint);
+const { apiEndpoint } = require("./prismic-config")
+var repo = /([^\/]+)\.prismic\.io\/graphql/.exec(apiEndpoint)
 
 module.exports = {
   siteMetadata: {
@@ -10,18 +10,11 @@ module.exports = {
   plugins: [
     `gatsby-plugin-react-helmet`,
     {
-      resolve: `@prismicio/gatsby-source-prismic-graphql`,
+      resolve: `gatsby-source-prismic`,
       options: {
-        repositoryName: repo[1], // Loads the repo name from prismic configuration
-        path: '/preview',
-        previews: true,
-        pages: [{
-          type: 'Post',
-          match: '/blog/:uid',
-          path: '/blog-preview',
-          component: require.resolve('./src/templates/post.js')
-        }]
-      }
+        repositoryName: process.env.PRISMIC_REPOSITORY_NAME,
+        accessToken: process.env.PRISMIC_ACCESS_TOKEN,
+      },
     },
     `gatsby-plugin-sass`,
     {
